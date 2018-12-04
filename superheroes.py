@@ -181,8 +181,6 @@ class Team:
         Hint: Use the fight method in the Hero
         class.
         '''
-        print("Team One: {}".format(self.heroes))
-        print("Team Two: {}".format(other_team))
 
         hero = random.choice(self.heroes)
         if not hero.is_alive():
@@ -250,8 +248,8 @@ class Arena:
 
         return the new ability object.
         '''
-        name = prompt("You are creating a new Ability,\nEnter a name: ")
-        max_damage = prompt("Enter a number: ")
+        name = input("You are creating a new Ability,\nEnter a name: ")
+        max_damage = input("Enter a number: ")
         return Ability(name, max_damage)
 
     def create_weapon(self):
@@ -262,8 +260,8 @@ class Arena:
 
         return the new weapon object.
         '''
-        name = prompt("You are creating a new Weapon,\nEnter a name: ")
-        damage = prompt("Enter a number: ")
+        name = input("You are creating a new Weapon,\nEnter a name: ")
+        damage = input("Enter a number: ")
         return Weapon(name, damage)
 
     def create_armor(self):
@@ -274,8 +272,8 @@ class Arena:
 
         return the new armor object.
         '''
-        name = prompt("You are creating a new Armor,\nEnter a name: ")
-        max_block = prompt("Enter a number: ")
+        name = input("You are creating a new Armor,\nEnter a name: ")
+        max_block = input("Enter a number: ")
         return Armor(name, max_block)
 
     def create_hero(self):
@@ -286,20 +284,20 @@ class Arena:
 
         return the new hero object
         '''
-        name = prompt("You are creating a new Hero,\nEnter a name: ")
-        armors = prompt("Would you like armors? y/n")
+        name = input("You are creating a new Hero,\nEnter a name: ")
+        armors = input("Would you like armors? y/n ")
         if armors == 'y':
-            num_armors = prompt('How many? ')
+            num_armors = input('How many? ')
         else:
             num_armors = 0
-        weapons = prompt("Would you like weapons? y/n")
+        weapons = input("Would you like weapons? y/n ")
         if weapons == 'y':
-            num_weapons = prompt('How many? ')
+            num_weapons = input('How many? ')
         else:
             num_weapons = 0
-        abilities = prompt("Would you like abilities? y/n")
+        abilities = input("Would you like abilities? y/n ")
         if abilities == 'y':
-            num_abilities = prompt('How many? ')
+            num_abilities = input('How many? ')
         else:
             num_abilities = 0
 
@@ -314,9 +312,9 @@ class Arena:
         Add the created hero to team one.
         '''
 
-        num_heroes = prompt('How many heroes would you like on Team One? ')
+        num_heroes = input('How many heroes would you like on Team One? ')
         num = 0
-        while num < num_heroes:
+        while num < int(num_heroes):
             self.create_hero()
             team_one.append(self.hero)
             num += 1
@@ -329,9 +327,9 @@ class Arena:
 
         Add the created hero to team two.
         '''
-        num_heroes = prompt('How many heroes would you like on Team Two? ')
+        num_heroes = input('How many heroes would you like on Team Two? ')
         num = 0
-        while num < num_heroes:
+        while num < int(num_heroes):
             self.create_hero()
             team_two.append(self.hero)
             num += 1
@@ -341,7 +339,7 @@ class Arena:
         This method should battle the teams together.
         Call the attack method that exists in your team objects to do that battle functionality.
         '''
-        pass
+        team_one.attack(team_two)
 
     def show_stats(self):
         '''
@@ -353,7 +351,7 @@ class Arena:
         Show both teams average kill/death ratio.
         Show surviving heroes.
         '''
-        pass
+        print("Winning team: {}\nTeam One, kill/death ratio: {}\nTeam Two, kill/death ratio: {}\nSurviving heroes: {}".format())
 
 if __name__ == "__main__":
     # If you run this file from the terminal
