@@ -1,7 +1,7 @@
 import random
 
 class Hero:
-    def __init__(self, name, health=100):
+    def __init__(self, name, starting_health=100):
         '''
         Initialize these values as instance variables:
         (Some of these values are passed in above, others will need to be set at a starting value.)
@@ -11,7 +11,8 @@ class Hero:
         current_health:
          '''
         self.name = name
-        self.health = health
+        self.starting_health = starting_health
+        self.current_health = starting_health
         self.abilities = list()
         self.armors = list()
         self.deaths = 0
@@ -57,11 +58,15 @@ class Hero:
         while battling:
             hero_attack = self.attack()
             opponent_attack = opponent.attack()
+
             opponent.take_damage(hero_attack)
             self.take_damage(opponent_attack)
+
             if self.is_alive() is False:
+                opponent.kills += 1
                 battling = False
             if opponent.is_alive() is False:
+                self.kills += 1
                 battling = False
 
     def add_armor(self, armor):
@@ -81,7 +86,7 @@ class Hero:
         return 0
         '''
         total = 0
-        if self.health <= 0:
+        if self.current_health <= 0:
             return 0
         else:
             #piece stands for piece of armor
@@ -98,7 +103,7 @@ class Hero:
         Update the number of deaths if the
         hero dies in the attack.
         '''
-        self.current_health -= damage
+        self.current_health -= damage_amt
         if self.current_health <= 0:
             self.deaths += 1
 
@@ -176,6 +181,9 @@ class Team:
         Hint: Use the fight method in the Hero
         class.
         '''
+        print("Team One: {}".format(self.heroes))
+        print("Team Two: {}".format(other_team))
+
         hero = random.choice(self.heroes)
         if not hero.is_alive():
             hero = random.choice(self.heroes)
@@ -186,14 +194,14 @@ class Team:
 
         hero.fight(opponent)
 
-    def revive_heroes(self, health=100):
+    def revive_heroes(self, starting_health=100):
         '''
         This method should reset all heroes
         health to their
         original starting value.
         '''
         for hero in self.name:
-            self.starting_health = starting_health
+            self.current_health = starting_health
 
     def stats(self):
         '''
@@ -242,7 +250,9 @@ class Arena:
 
         return the new ability object.
         '''
-        pass
+        name = prompt("You are creating a new Ability,\nEnter a name: ")
+        max_damage = prompt("Enter a number: ")
+        return Ability(name, max_damage)
 
     def create_weapon(self):
         '''
@@ -252,7 +262,9 @@ class Arena:
 
         return the new weapon object.
         '''
-        pass
+        name = prompt("You are creating a new Weapon,\nEnter a name: ")
+        damage = prompt("Enter a number: ")
+        return Weapon(name, damage)
 
     def create_armor(self):
         '''
@@ -262,7 +274,9 @@ class Arena:
 
         return the new armor object.
         '''
-        pass
+        name = prompt("You are creating a new Armor,\nEnter a name: ")
+        max_block = prompt("Enter a number: ")
+        return Armor(name, max_block)
 
     def create_hero(self):
         '''
@@ -272,7 +286,24 @@ class Arena:
 
         return the new hero object
         '''
-        pass
+        name = prompt("You are creating a new Hero,\nEnter a name: ")
+        armors = prompt("Would you like armors? y/n")
+        if armors == 'y':
+            num_armors = prompt('How many? ')
+        else:
+            num_armors = 0
+        weapons = prompt("Would you like weapons? y/n")
+        if weapons == 'y':
+            num_weapons = prompt('How many? ')
+        else:
+            num_weapons = 0
+        abilities = prompt("Would you like abilities? y/n")
+        if abilities == 'y':
+            num_abilities = prompt('How many? ')
+        else:
+            num_abilities = 0
+
+        return Hero(name, num_armors, num_armors, num_abilities)
 
     def build_team_one(self):
         '''
@@ -282,7 +313,13 @@ class Arena:
 
         Add the created hero to team one.
         '''
-        pass
+
+        num_heroes = prompt('How many heroes would you like on Team One? ')
+        num = 0
+        while num < num_heroes:
+            self.create_hero()
+            team_one.append(self.hero)
+            num += 1
 
     def build_team_two(self):
         '''
@@ -292,7 +329,12 @@ class Arena:
 
         Add the created hero to team two.
         '''
-        pass
+        num_heroes = prompt('How many heroes would you like on Team Two? ')
+        num = 0
+        while num < num_heroes:
+            self.create_hero()
+            team_two.append(self.hero)
+            num += 1
 
     def team_battle(self):
         '''
